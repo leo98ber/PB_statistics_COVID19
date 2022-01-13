@@ -1,48 +1,32 @@
-import csv 
-
-class Handler_fields(object):
-    def __init__(self,field_name,data_base):
-        self.field_name = field_name
-        self.data_base = data_base
-
-
-    def reader(self):
-        dates = []
-        with open(self.field_name, mode ='r') as archivo:
-            reader = csv.DictReader(archivo,fieldnames=self.data_base) 
-            for row in reader:
-                dates.append(row) 
-            archivo.close()
-        return dates
+from time import sleep
+from pandas.core.algorithms import mode
+import pandas as pd
+from datetime import datetime
+import pytz
 
 
-    def creater(self,cedula,nombre,estado,municipio,parroquia):  
-        temp = []
-
-        ["cedula","nombre","estado","municipio","parroquia"]
-        dates = [{ 
-                'cedula':cedula,
-                'nombre':nombre,
-                'estado':estado,
-                'municipio':municipio,
-                'parroquia':parroquia
-                }]
-
-        with open(self.field_name , 'a') as archivo: 
-            writer = csv.DictWriter(archivo, fieldnames = self.data_base) 
-            writer.writerows(dates)
-            archivo.close()
-
-        temp.append(dates)
-        print("\nCliente creado:\n",dates)
+def time_function():
+    caracas_tz = pytz.timezone("America/Caracas") 
+    caracas_date = datetime.now(caracas_tz) 
+    time_zone = caracas_date.strftime("%d/%m/%y %H:%M:%S")
+    print("\n\nFecha de reporte\n\n")
+    print("\nCaracas: ",time_zone ) 
+    time_zone = caracas_date.strftime("%d_%m_%y_%H%M%S")
+    return time_zone
 
 
-    def writer(self,new_data_base):
-            with open(self.field_name ,'w') as archivo: 
-                for client in new_data_base:
-                    writer = csv.DictWriter(archivo, fieldnames = self.data_base) 
-                    writer.writerow(client)
-                archivo.close()
+def handler_files(df,m_w): 
+    print("\n\nGuardando data \n\n") 
+    sleep(2)
+    time = time_function()
+    name_csv = 'files_data/'+"Reporte_"+time+'.csv'
+    df.to_csv(name_csv,mode=m_w)
+    print("\n\nArchivo creado: \n\n", name_csv)
+    return name_csv
 
 
-            
+def reading(file):
+    df = pd.read_csv(file,index_col=0)
+    print("\n",df)
+
+
