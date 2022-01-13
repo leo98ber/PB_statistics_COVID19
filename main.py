@@ -2,9 +2,9 @@ from modules import interface
 from time import sleep
 
 def main():
-    print("Bienvenido al software de extraccion y almacenamiento de datos electorales\n")
+    print("Bienvenido al generador estadistico de reportes COVID\n")
     sleep(1)
-    main = input("\nPara obtener las intrucciones presione h y empezar presione enter\n")
+    main = input("\nPara obtener las intrucciones presione h y para empezar presione enter\n")
 
     if main == "h":
         help(interface.interface)
